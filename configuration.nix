@@ -12,6 +12,9 @@
     home = "/Users/${user}";
   };
   system.stateVersion = 6;
+  # Touch ID for sudo; reattach makes it work inside tmux/herdr sessions too.
+  security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local.reattach = true;
   system.defaults = {
     NSGlobalDomain = {
       AppleInterfaceStyle = "Dark";
