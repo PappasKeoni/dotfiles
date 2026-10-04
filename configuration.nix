@@ -59,6 +59,10 @@
       "opensuperwhisper"
       # dev
       "visual-studio-code"
+      # local ai
+      "lm-studio"
+      "ollama-app"
+      "draw-things"
     ];
   };
 }
