@@ -65,4 +65,24 @@
       "draw-things"
     ];
   };
+
+  # Pinokio has no Homebrew cask and nixpkgs only builds it for Linux, so install the
+  # signed release directly. Only runs when the app is missing; Pinokio self-updates after that.
+  system.activationScripts.postActivation.text = ''
+    if [ ! -d /Applications/Pinokio.app ]; then
+      echo "installing Pinokio..."
+      tmp="$(mktemp -d)"
+      /usr/bin/curl -fsSL -o "$tmp/pinokio.zip" \
+        https://github.com/pinokiocomputer/pinokio/releases/download/v8.2.0/Pinokio-8.2.0-arm64-mac.zip
+      /usr/bin/ditto -x -k "$tmp/pinokio.zip" "$tmp"
+      # Refuse anything not signed by Pinokio's developer (Starling Protocol, Inc).
+      if /usr/bin/codesign -dv "$tmp/Pinokio.app" 2>&1 | /usr/bin/grep -q "TeamIdentifier=TPKP4XK352"; then
+        /usr/bin/ditto "$tmp/Pinokio.app" /Applications/Pinokio.app
+        /usr/sbin/chown -R ${user}:admin /Applications/Pinokio.app
+      else
+        echo "warning: Pinokio download failed signature check, skipping" >&2
+      fi
+      rm -rf "$tmp"
+    fi
+  '';
 }
