@@ -66,6 +66,13 @@
     ];
   };
 
+  # Let the GPU use 20 of 24 GB (default is ~2/3) so 27B-class local models fit.
+  # sysctl resets on reboot, so a launchd daemon reapplies it at boot.
+  launchd.daemons.gpu-wired-limit.serviceConfig = {
+    ProgramArguments = [ "/usr/sbin/sysctl" "iogpu.wired_limit_mb=20480" ];
+    RunAtLoad = true;
+  };
+
   # Pinokio has no Homebrew cask and nixpkgs only builds it for Linux, so install the
   # signed release directly. Only runs when the app is missing; Pinokio self-updates after that.
   system.activationScripts.postActivation.text = ''
