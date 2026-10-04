@@ -3,12 +3,16 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 config.color_scheme = "rose-pine-moon"
+-- home-manager installs the font here; macOS doesn't always register it, so load it directly.
+config.font_dirs = { wezterm.home_dir .. "/Library/Fonts/HomeManager" }
 config.font = wezterm.font("Hack Nerd Font")
 config.font_size = 15.0
 config.window_background_opacity = 0.8
 config.macos_window_background_blur = 50
 config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "RESIZE"
+-- Start new windows in firstmate; new tabs and splits still inherit the current pane's directory.
+config.default_cwd = wezterm.home_dir .. "/firstmate"
 
 -- Dim unfocused windows so the focused one is obvious at a glance.
 local UNFOCUSED_FOREGROUND_TEXT_HSB = { hue = 1.0, saturation = 0.25, brightness = 0.45 }

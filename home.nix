@@ -26,7 +26,11 @@ in
     enable = true;
     autosuggestion.enable = true;      # ghost text from history
     syntaxHighlighting.enable = true;  # commands turn green when valid
+    profileExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
     initContent = ''
+      export PATH="$HOME/.local/bin:$PATH"
       bindkey '^f' autosuggest-accept
     '';
     shellAliases = {

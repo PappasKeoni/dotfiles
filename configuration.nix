@@ -28,6 +28,8 @@
   nix-homebrew = {
     enable = true;
     inherit user;
+    # Homebrew was already installed with the official script; take it over.
+    autoMigrate = true;
   };
   homebrew = {
     enable = true;
@@ -36,10 +38,24 @@
     onActivation.extraFlags = [ "--force" ];
     brews = [
       "herdr"
+      "gh"
     ];
     casks = [
       "wezterm"
       "claude-code"
+      # browsers
+      "google-chrome"
+      "firefox"
+      # everyday
+      "discord"
+      "vlc"
+      # utilities
+      "raycast"
+      "rectangle"
+      "the-unarchiver"
+      "opensuperwhisper"
+      # dev
+      "visual-studio-code"
     ];
   };
 }
